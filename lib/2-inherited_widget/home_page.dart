@@ -23,15 +23,20 @@ class _HomePageState extends State<HomePage> {
   void onProductPressed(Product product) {
     setState(() {
       if (cartProductList.contains(product)) {
-        cartProductList.remove(product);
+        // cartProductList.remove(product);
+
+        cartProductList = cartProductList.where((element) {
+          return element != product;
+        }).toList();
       } else {
-        cartProductList.add(product);
+        // cartProductList.add(product);
+        cartProductList = [...cartProductList, product];
       }
     });
   }
 
   /// InheritedCart.of(context)로 손쉽게 접근
- 
+
   @override
   Widget build(BuildContext context) {
     return InheritedCart(
@@ -48,12 +53,17 @@ class _HomePageState extends State<HomePage> {
             Cart(),
           ],
         ),
-        bottomNavigationBar: BottomBar(
-          currentIndex: currentIndex,
-          cartTotal: "${cartProductList.length}",
-          onTap: (index) => setState(() {
-            currentIndex = index;
-          }),
+        bottomNavigationBar: Builder(
+          builder: (context) {
+            final inheritedCart = context.read<InheritedCart>();
+            return BottomBar(
+              currentIndex: currentIndex,
+              cartTotal: "${inheritedCart.cartProductList.length}",
+              onTap: (index) => setState(() {
+                currentIndex = index;
+              }),
+            );
+          },
         ),
       ),
     );

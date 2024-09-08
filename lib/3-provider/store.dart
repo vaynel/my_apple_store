@@ -1,7 +1,9 @@
-import 'package:apple_store/2-inherited_widget/state/inherited_cart.dart';
+import 'package:apple_store/3-provider/home_page.dart';
+import 'package:apple_store/3-provider/state/provider_cart.dart';
 import 'package:apple_store/common/product.dart';
 import 'package:apple_store/common/product_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Store extends StatelessWidget {
   const Store({
@@ -10,11 +12,7 @@ class Store extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //InheritedCart inheritedCart = InheritedCart.of(context);
-    InheritedCart inheritedCart = context.read<InheritedCart>();
-    // InheritedCart? inheritedCart =
-    //     context.dependOnInheritedWidgetOfExactType<InheritedCart>()!;
-
+    ProviderCart providerCart = context.watch();
     return Scaffold(
       body: ListView.builder(
         itemCount: storeProductList.length,
@@ -22,8 +20,8 @@ class Store extends StatelessWidget {
           Product product = storeProductList[index];
           return ProductTile(
             product: product,
-            isInCart: inheritedCart.cartProductList.contains(product),
-            onPressed: inheritedCart.onProductPressed,
+            isInCart: providerCart.cartProductList.contains(product),
+            onPressed: providerCart.onProductPressed,
           );
         },
       ),

@@ -16,9 +16,15 @@ class InheritedCart extends InheritedWidget {
   /// 상품 클릭 // 클릭 이벤트함수 (외부에서 전달받을꺼임),
   final void Function(Product product) onProductPressed;
 
-  @override
+  // @override //update를 바로 해주눈 부분
+  // bool updateShouldNotify(InheritedCart oldWidget) {
+  //   return true;
+  // }
+
+  @override //update를 바로 해주눈 부분
   bool updateShouldNotify(InheritedCart oldWidget) {
-    return true;
+    print("${cartProductList.length} / ${oldWidget.cartProductList.length}");
+    return cartProductList != oldWidget.cartProductList;
   }
 
   /// InheritedCart.of(context)로 손쉽게 접근
